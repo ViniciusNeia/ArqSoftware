@@ -1,15 +1,8 @@
-import sys from 'node:sys';
+import ReportsFacade from './src/ReportsFacade.js';
+import CitiesReporter from './src/CitiesReporter.js';
 
-import ReportsMediator from './src/ReportsMediator.js';
-import FormaterHTML from './src/FormaterHTML.js';
-import FormaterTXT from './src/FormaterTXT.js';
-import FormaterCSV from './src/FormaterCSV.js';
-import fs from 'node:fs';
-
-const mediator = new ReportsMediator();
-mediator.registerFormatter("html", new FormaterHTML());
-mediator.registerFormatter("txt", new FormaterTXT());
-mediator.registerFormatter("csv", new FormaterCSV());
+const facade = new ReportsFacade();
+const reporter = new CitiesReporter();
 
 const [cmd, script, param1] = process.argv;
 const filename = './data/cidades-2.json';
@@ -19,22 +12,6 @@ if (!['html', 'txt', 'csv'].includes(param1)) {
   process.exit(1);
 }
 
-
-fs.readFile(filename, 'utf8', (err, data) => {
-  if (err) {
-    console.error(`Erro ao ler o arquivo: ${err}`);
-    return;
-  }
-
-  const cities = JSON.parse(data);
-
-  const report = mediator.format(param1, cities);
-  
-  console.log(report);
-});
-
-
-
-
-
-
+const data = reporter._parseJSON(reporter._read(filename));
+console.log(`Relatorio Formatado para ${param1.toUpperCase}`);
+console.log(facade.generateReport(data, param1));

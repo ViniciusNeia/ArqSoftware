@@ -1,17 +1,12 @@
 import ReportsFacade from './src/ReportsFacade.js';
-import fs from 'node:fs';
+import CitiesReporter from './src/CitiesReporter.js';
 
 const arquivo = './data/cidades-2.json';
 const facade = new ReportsFacade();
-
-fs.readFile(arquivo, 'utf8', (err, data) => {
-  if (err) {
-    console.error(`Erro ao ler o arquivo: ${err}`);
-    return;
-  }
+const reporter = new CitiesReporter();
 
 try {
-  const cities = JSON.parse(data);
+  const cities = reporter._parseJSON(reporter._read(arquivo));
   
   console.log("Relatório HTML:");
   console.log(facade.generateReport(cities, 'html'));
@@ -24,4 +19,4 @@ try {
 
 } catch (error) {
   console.error("Erro:", error.message);
-}});
+}

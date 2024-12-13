@@ -2,18 +2,20 @@ import fs from 'node:fs';
 import FileValidator from './FileValidator.js';
 
 export default class CitiesReporter {
-  constructor({ formaterStrategy }) {
-    this._formaterStrategy = formaterStrategy;
-  }
 
   _read(filename) {
-    FileValidator.validateFile(filename);  // Valida o arquivo antes de processar
-    this._cities_json = fs.readFileSync(filename);
+    FileValidator.validateFile(filename);
+    return fs.readFileSync(filename, 'utf8');
   }
 
-  _parseJSON() {
-    this._cities = JSON.parse(this._cities_json);
+  _parseJSON(data) {
+    try {
+      return JSON.parse(data);
+    } catch (err) {
+      throw new Error("Erro ao converter dados para JSON.");
+    }
   }
+
 
   report(filename) {
     this._read(filename);
