@@ -1,6 +1,5 @@
 import fs from 'node:fs';
 import FileValidator from './FileValidator.js';
-import ReportsMediator from './ReportsMediator.js';
 
 export default class CitiesReporter {
   constructor({ formaterStrategy }) {

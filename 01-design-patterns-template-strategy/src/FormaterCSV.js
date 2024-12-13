@@ -1,4 +1,3 @@
-import csvParser from 'csv-parser';
 import AbstractFormatter from './AbstractFormater.js';
 
 export default class FormaterCSV extends AbstractFormatter {
